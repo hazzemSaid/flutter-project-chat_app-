@@ -1,12 +1,13 @@
-import 'package:chatapp/screen/chat_screen.dart';
-import 'package:flutter/material.dart';
-import 'screen/sgin_in.dart';
-import 'screen/resister.dart';
+import 'package:chatapp/bloc/auth_bloc.dart';
+import 'package:chatapp/cubit/regestercubit.dart';
+import 'package:chatapp/cubit/signINCubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'screen/chat_screen.dart';
+import 'screen/resister.dart';
+import 'screen/sgin_in.dart';
 import 'theme/themes.dart';
 
 void main() async {
@@ -16,21 +17,30 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      darkTheme: darkmode,
-      theme: lightmode,
-      // home: sign_up(),
-      routes: {
-        '/': (context) => sign_up(),
-        '/resister': (context) => resister(),
-        // ChatScreen.chatroute: (context) => ChatScreen(),
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SginINCubite>(create: (context) => SginINCubite()),
+        BlocProvider<Regestercubit>(create: (context) => Regestercubit()),
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+      ],
+      child: MaterialApp(
+        darkTheme: darkmode,
+        theme: lightmode,
+        routes: {
+          '/': (context) => Sign_up(),
+          '/resister': (context) => resister(),
+          // ChatScreen.chatroute: (context) => ChatScreen(),
+        },
+      ),
     );
   }
 }

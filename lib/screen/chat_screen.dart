@@ -1,10 +1,9 @@
 import 'package:chatapp/model/mass.dart';
-import 'package:chatapp/services/auth_regsister.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../model/mass.dart';
+
 import '/constrain.dart';
 import '/wieght/chat_buble.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatefulWidget {
   final String? email;
@@ -109,7 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             'password': widget.password
                           });
                           controller.animateTo(
-                            controller.position.maxScrollExtent,
+                            controller.position.minScrollExtent,
                             duration: Duration(seconds: 1),
                             curve: Curves.easeIn,
                           );
